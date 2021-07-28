@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:astegni/repo/model/user.dart';
-import 'package:astegni/repo/userRepo.dart';
+import 'package:astegni/repo/userService.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';

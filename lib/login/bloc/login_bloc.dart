@@ -1,6 +1,8 @@
 import 'dart:async';
-import 'package:astegni/repo/model/user.dart';
-import 'package:astegni/repo/userRepo.dart';
+import 'dart:convert';
+import 'package:astegni/Authentication/authentication_bloc.dart';
+//import 'package:astegni/repo/model/user.dart';
+import 'package:astegni/repo/userService.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
@@ -12,8 +14,10 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepository authRepository;
+  final AuthenticationBloc authenticationBloc;
 
-  LoginBloc({required this.authRepository}) : super(const LoginState());
+  LoginBloc({required this.authRepository, required this.authenticationBloc})
+      : super(const LoginState());
 
   @override
   void onTransition(Transition<LoginEvent, LoginState> transition) {
@@ -59,11 +63,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield state.copyWith(status: FormzStatus.submissionInProgress);
         try {
           //await Future<void>.delayed(const Duration(seconds: 1));
-          User re = await authRepository.loginUser(
+          // User re = await authRepository.loginUser(state.email.value, state.password.value);
+          final response = await authRepository.authenticateUser(
               state.email.value, state.password.value);
+          var _response = jsonDecode(response.body);
+          authenticationBloc.add(LoggedIn(_response['token']));
           //await authRepository.loginUser('gadisa@gmail.com', 'atr4136');
           print('_______________________');
-          print(re.name);
+          print(_response['user'].toString());
           print('_______________________');
           yield state.copyWith(status: FormzStatus.submissionSuccess);
         } catch (e) {

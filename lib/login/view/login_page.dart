@@ -1,4 +1,5 @@
-import 'package:astegni/repo/userRepo.dart';
+import 'package:astegni/Authentication/authentication_bloc.dart';
+import 'package:astegni/repo/userService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:astegni/login/login.dart';
@@ -26,8 +27,9 @@ class LoginPage extends StatelessWidget {
           ],
         ),
         body: BlocProvider(
-          create: (context) =>
-              LoginBloc(authRepository: context.read<AuthRepository>()),
+          create: (context) => LoginBloc(
+              authRepository: context.read<AuthRepository>(),
+              authenticationBloc: context.read<AuthenticationBloc>()),
           child: LoginForm(),
         ),
       ),

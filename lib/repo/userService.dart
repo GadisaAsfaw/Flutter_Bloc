@@ -41,6 +41,30 @@ class AuthRepository {
     }
   }
 
+  Future<dynamic> authenticateUser(String email, String password) async {
+    try {
+      final response = await http.post(
+        // Uri.parse('http://192.168.42.115:8000/api/login'),
+        Uri.parse('http://192.168.43.194:8000/api/login'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'email': email,
+          'password': password,
+        }),
+      );
+      if (response.statusCode == 200) {
+        return response;
+        //return User.fromJson2(jsonDecode(response.body));
+      } else {
+        throw Exception('User does not exist.');
+      }
+    } catch (e) {
+      throw Exception('Connection error.');
+    }
+  }
+
   Future<User> registerUser(List<String> statevalue) async {
     try {
       final response = await http.post(

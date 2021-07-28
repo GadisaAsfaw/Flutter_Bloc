@@ -1,4 +1,4 @@
-import 'package:astegni/repo/userRepo.dart';
+import 'package:astegni/repo/userService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:astegni/signup/signup.dart';
